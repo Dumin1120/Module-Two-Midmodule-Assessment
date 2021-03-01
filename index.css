@@ -1,0 +1,19 @@
+section {
+    border: black solid 2px;
+}
+
+#error-para {
+    color: rgb(175, 0, 0);
+}
+
+#dice-para, ul {
+    font-size: 30px;
+}
+
+#sun-para {
+    font-size: 20px;
+}
+
+body {
+    background: rgb(85, 125, 205);
+}

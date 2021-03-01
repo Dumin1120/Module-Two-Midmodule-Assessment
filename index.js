@@ -1,31 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
-    let count = 0
-    const button = document.getElementById("button")
-    button.addEventListener("click", () => {
-        const numOfDice = document.getElementById("input").value
-        if(numOfDice){
-            const diceResult = []
-            for(let i = 0; i < numOfDice; i++){
-                diceResult.push(Math.floor(Math.random() * 6) + 1)
-            }
-            const diceSum = diceResult.reduce((a, e) => a + e, 0)
+    const form = document.getElementById("dice-form")
+    form.addEventListener("submit", (event) => {
+        event.preventDefault()
+        const numOfDice = document.getElementById("number-of-dice").value
+        const outError = document.getElementById("error-para")
+        if(numOfDice === "" || numOfDice < 1){
+            outError.innerHTML = "Please enter a positive integer."
+        } else {
+            outError.innerHTML = "&nbsp;"
+            const dices = ["&#9856", "&#9857", "&#9858", "&#9859", "&#9860", "&#9861"]
             let diceImage = ""
+            let diceSum = 0
             for(let i = 0; i < numOfDice; i++){
-                switch(diceResult[i]){
-                    case 1 : diceImage += "&#9856"; break
-                    case 2 : diceImage += "&#9857"; break
-                    case 3 : diceImage += "&#9858"; break
-                    case 4 : diceImage += "&#9859"; break
-                    case 5 : diceImage += "&#9860"; break
-                    default: diceImage += "&#9861"
-                }
+                const n = Math.floor(Math.random() * 6) + 1
+                diceImage += dices[n-1]
+                diceSum += n
             }
             const outDiceImage = document.getElementById("dice-para")
             const outDiceSum = document.getElementById("sum-para")
-            if(++count > 1){
+            const lastSum = outDiceSum.textContent.split(" ")[2]
+            if(lastSum){
                 const ul = document.getElementById("ul")
                 const li = document.createElement("li")
-                li.innerHTML = `${outDiceImage.innerHTML}=${outDiceSum.textContent.split(" ")[2]}`
+                li.innerHTML = `${outDiceImage.innerHTML}=${lastSum}`
                 ul.appendChild(li)
             }
             outDiceImage.innerHTML = diceImage
