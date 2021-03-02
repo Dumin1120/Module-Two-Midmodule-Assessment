@@ -1,10 +1,15 @@
+// SMART Goal: (in around 40 minutes) doing extra, see statistics about roll history like the average sum, the minimum sum, and the maximum sum
+//Won't have time for dice type detection https://en.wikipedia.org/wiki/Yahtzee#Lower_section
 document.addEventListener("DOMContentLoaded", () => {
+    let statSum = 0
+    let statMin = Infinity
+    let statMax = -Infinity
     const form = document.getElementById("dice-form")
     form.addEventListener("submit", (event) => {
         event.preventDefault()
         const numOfDice = document.getElementById("number-of-dice").value
         const outError = document.getElementById("error-para")
-        if(numOfDice === "" || numOfDice < 1){
+        if(numOfDice < 1){
             outError.innerHTML = "Please enter a positive integer."
         } else {
             outError.innerHTML = "&nbsp;"
@@ -27,6 +32,17 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             outDiceImage.innerHTML = diceImage
             outDiceSum.textContent = `Sum = ${diceSum}`
+            statSum += diceSum
+            if(statMax < diceSum){
+                statMax = diceSum
+            }
+            if(statMin > diceSum){
+                statMin = diceSum
+            }
+            const count = document.querySelectorAll("li").length + 1
+            document.getElementById("avg").textContent = Math.round(statSum / count)
+            document.getElementById("max").textContent = statMax
+            document.getElementById("min").textContent = statMin
         }
     })
 })
